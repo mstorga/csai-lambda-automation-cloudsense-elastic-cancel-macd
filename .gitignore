@@ -1,0 +1,45 @@
+/.aws-sam/
+/lambda_function/.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Installed packages (pip install -t)
+lambda_function/annotated_types*/
+lambda_function/anyio*/
+lambda_function/bin/
+lambda_function/certifi*/
+lambda_function/charset_normalizer*/
+lambda_function/colorama*/
+lambda_function/defusedxml*/
+lambda_function/distro*/
+lambda_function/h11*/
+lambda_function/httpcore*/
+lambda_function/httpx*/
+lambda_function/idna*/
+lambda_function/jira*/
+lambda_function/jiter*/
+lambda_function/oauthlib*/
+lambda_function/openai*/
+lambda_function/packaging*/
+lambda_function/psycopg2*/
+lambda_function/pydantic*/
+lambda_function/pydantic_core*/
+lambda_function/regex*/
+lambda_function/requests*/
+lambda_function/requests_oauthlib*/
+lambda_function/requests_toolbelt*/
+lambda_function/sniffio*/
+lambda_function/tiktoken*/
+lambda_function/tiktoken_ext*/
+lambda_function/tqdm*/
+lambda_function/typing_extensions*/
+lambda_function/typing_inspection*/
+lambda_function/urllib3*/
+lambda_function/*.dist-info/
+
+# Build artifacts
+deployment-package.zip
+*.zip

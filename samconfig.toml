@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "CloudsenseElasticCancelMACDRequest"
+s3_bucket = "cf-templates-deniz"
+s3_prefix = "CloudsenseElasticCancelMACDRequest"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
+confirm_changeset = false

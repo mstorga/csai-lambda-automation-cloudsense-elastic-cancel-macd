@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Timeout: 900
+    MemorySize: 512
+  Api:
+    EndpointConfiguration: REGIONAL
+
+Resources:
+  CloudsenseElasticCancelMACDRequestFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaVPCAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:CreateNetworkInterface
+                  - ec2:DescribeNetworkInterfaces
+                  - ec2:DeleteNetworkInterface
+                  - ssm:Describe*
+                  - ssm:Get*
+                  - ssm:List*
+                Resource: "*"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  CloudsenseElasticCancelMACDRequestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CloudsenseElasticCancelMACDRequest
+      CodeUri: lambda_function/
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+      Role: !GetAtt CloudsenseElasticCancelMACDRequestFunctionRole.Arn
+      VpcConfig:
+        SubnetIds:
+          - subnet-ee21528a
+          - subnet-9ad3a6d1
+        SecurityGroupIds:
+          - sg-09571ba2b470d1ff9
+      Events:
+        CloudsenseElasticCancelMACDRequestEvent:
+          Type: Api
+          Properties:
+            Path: /handler
+            Method: post
+
+Outputs:
+  CloudsenseElasticCancelMACDRequestApi:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/handler"
