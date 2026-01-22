@@ -48,12 +48,18 @@ def lambda_handler(event, _):
 
         print(f"📥 Parsed request body: {body}")
 
+        # Extract query string parameters (for ?test_mode=true style invocation)
+        query_params = event.get('queryStringParameters') or {}
+        
         # Extract input parameters
         org_id = body.get('org_id')
         subscriptions = parse_list_parameter(body.get('subscriptions', []))
         region = body.get('region')
         case_id = body.get('case_id')
-        test_mode = parse_bool_parameter(body.get('test', False))
+        # Check both body 'test' and query param 'test_mode'
+        test_mode = parse_bool_parameter(
+            body.get('test') or query_params.get('test_mode') or False
+        )
 
         # Validate required parameters
         validation_errors = validate_inputs(org_id, subscriptions, region, case_id)
